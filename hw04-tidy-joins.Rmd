@@ -2,10 +2,12 @@
 title: "Homework 04: Tidy data and joins"
 author: Emre Erhan
 date: October 9, 2018
+theme: yeti
 output:
-  md_document:
-    toc: true
+  github_document:
+    toc: yes
 ---
+
 
 ```{r}
 suppressPackageStartupMessages(library(gapminder))
@@ -65,7 +67,7 @@ anti_join(nato, gapminder, by = "country") %>%
 
 Interestingly, the above five Eastern European countries that are missing from the `gapminder` dataset.
 
-### Let's combine our knowledge, and see how the `pop` has changed for different `enlargement`s of NATO member countries
+### Let's combine our knowledge, and see how the `pop` has changed for different `enlargement` of NATO member countries
 
 ```{r}
 gapminder_nato_right_join %>%
@@ -75,5 +77,7 @@ gapminder_nato_right_join %>%
   arrange(enlargement) %>% # Sort by enlargement
   ggplot(aes(year, lifeExp, colour = enlargement)) +
     ggtitle("Examining the change in mean life expectation of NATO countries by Enlargement") +
+    ylab("Life Expectancy") + 
+    xlab("Year") +
     geom_line()
 ```
