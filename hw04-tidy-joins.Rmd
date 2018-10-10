@@ -12,7 +12,7 @@ suppressPackageStartupMessages(library(gapminder))
 suppressPackageStartupMessages(library(dplyr))
 ```
 
-## Activity 2: Make a tibble with one row per year and columns for life expectancy for two or more countries. 
+## Make a tibble with one row per year and columns for life expectancy for two or more countries. 
 
 ```{r}
 tidy_lifeExp_data = gapminder %>%
@@ -28,4 +28,44 @@ tidy_lifeExp_data %>%
   geom_point() +
   geom_smooth()
   
+```
+
+## Explore database style joining in R with my `nato` `data.frame`
+
+```{r}
+# The following csv file was manually copied line-by-line from https://en.wikipedia.org/wiki/Member_states_of_NATO
+nato = read.csv('nato-countries.csv')
+```
+
+### Let's start by looking at outer joins.
+
+The following left join includes all columnns from `nato`, but only contains values for countries belonging to NATO. As you can see from the `head` of the joined `data.frame`, there are no `dateJoined` and `enlargment` values for Afghanistan, since the country is not found in the `nato` `data.frame`.
+
+```{r}
+gapminder_nato_left_join = left_join(gapminder, nato, by = "country") # An SQL style left join
+head(gapminder_nato_left_join) %>%
+  knitr::kable()
+```
+
+The following code only looks at the countries that are found in `nato`.
+
+```{r}
+gapminder_nato_right_join = right_join(gapminder, nato, by = "country") # An SQL style right join
+head(gapminder_nato_right_join) %>%
+  knitr::kable()
+```
+
+### Let's try an `anti_join` to see if `gapminder` is missing any NATO member countries.
+
+```{r}
+anti_join(nato, gapminder, by = "country") %>%
+  knitr::kable()
+```
+
+Interestingly, the above five Eastern European countries that are missing from the `gapminder` dataset.
+
+### Let's combine our knowledge, and see how life expectency is rising in the NATO member countries
+
+```{r}
+
 ```
