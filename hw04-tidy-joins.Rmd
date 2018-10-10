@@ -76,7 +76,7 @@ gapminder_nato_right_join %>%
   summarise(lifeExp = mean(lifeExp)) %>% # We want to gather the means of lifeExp per enlargement
   arrange(enlargement) %>% # Sort by enlargement
   ggplot(aes(year, lifeExp, colour = enlargement)) +
-    ggtitle("Examining the change in mean life expectation of NATO countries by Enlargement") +
+    ggtitle("Examining the change in mean life expectation of NATO countries") +
     ylab("Life Expectancy") + 
     xlab("Year") +
     geom_line()
