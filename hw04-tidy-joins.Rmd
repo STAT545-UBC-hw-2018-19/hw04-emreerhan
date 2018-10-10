@@ -3,13 +3,13 @@ title: "Homework 04: Tidy data and joins"
 author: Emre Erhan
 date: October 9, 2018
 output:
-  github_document:
-    toc: yes 
+  md_document:
+    toc: true
 ---
 
 ```{r}
 suppressPackageStartupMessages(library(gapminder))
-suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyverse))
 ```
 
 ## Make a tibble with one row per year and columns for life expectancy for two or more countries. 
@@ -25,9 +25,9 @@ knitr::kable(tidy_lifeExp_data)
 ```{r}
 tidy_lifeExp_data %>%
   ggplot(aes(x = Canada, y = `United States`)) +
-  ggtitle("The Life Expectancy of Canada vs USA") +
-  geom_point() +
-  geom_smooth()
+    ggtitle("The Life Expectancy of Canada vs USA") +
+    geom_point() +
+    geom_smooth(method = "loess")
   
 ```
 
@@ -69,10 +69,10 @@ Interestingly, the above five Eastern European countries that are missing from t
 
 ```{r}
 gapminder_nato_right_join %>%
-  select(enlargement, year, lifeExp) %>%
+  select(enlargement, year, lifeExp) %>% # We only care about these three variables
   group_by(year, enlargement) %>%
-  summarise(lifeExp = mean(lifeExp)) %>%
-  arrange(enlargement) %>%
+  summarise(lifeExp = mean(lifeExp)) %>% # We want to gather the means of lifeExp per enlargement
+  arrange(enlargement) %>% # Sort by enlargement
   ggplot(aes(year, lifeExp, colour = enlargement)) +
     ggtitle("Examining the change in mean life expectation of NATO countries by Enlargement") +
     geom_line()
