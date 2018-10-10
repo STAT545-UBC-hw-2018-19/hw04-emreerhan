@@ -25,6 +25,7 @@ knitr::kable(tidy_lifeExp_data)
 ```{r}
 tidy_lifeExp_data %>%
   ggplot(aes(x = Canada, y = `United States`)) +
+  ggtitle("The Life Expectancy of Canada vs USA") +
   geom_point() +
   geom_smooth()
   
@@ -64,8 +65,15 @@ anti_join(nato, gapminder, by = "country") %>%
 
 Interestingly, the above five Eastern European countries that are missing from the `gapminder` dataset.
 
-### Let's combine our knowledge, and see how life expectency is rising in the NATO member countries
+### Let's combine our knowledge, and see how the `pop` has changed for different `enlargement`s of NATO member countries
 
 ```{r}
-
+gapminder_nato_right_join %>%
+  select(enlargement, year, lifeExp) %>%
+  group_by(year, enlargement) %>%
+  summarise(lifeExp = mean(lifeExp)) %>%
+  arrange(enlargement) %>%
+  ggplot(aes(year, lifeExp, colour = enlargement)) +
+    ggtitle("Examining the change in mean life expectation of NATO countries by Enlargement") +
+    geom_line()
 ```
